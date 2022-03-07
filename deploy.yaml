@@ -1,0 +1,37 @@
+---
+version: "2.0"
+
+services:
+  mysql:
+    image: mysql 
+    expose:
+      - port: 3306 
+        to:
+          - global: true
+      - port: 8080
+        as: 80
+        to:
+          - global: true
+profiles:
+  compute:
+    mysql:
+      resources:
+        cpu:
+          units: 1.0
+        memory:
+          size: 256Mi
+        storage:
+          size: 256Mi
+  placement:
+    akash:
+      attributes:
+        host: akash
+      pricing:
+        mysql: 
+          denom: uakt
+          amount: 100
+deployment:
+  mysql:
+    akash:
+      profile: mysql
+      count: 1 
